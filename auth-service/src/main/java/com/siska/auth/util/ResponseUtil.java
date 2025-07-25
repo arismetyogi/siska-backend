@@ -1,6 +1,6 @@
 package com.siska.auth.util;
 
-import com.balai.user.model.dto.response.ApiResponse;
+import com.siska.auth.model.dto.response.ApiResponse;
 
 public class ResponseUtil {
     public static <T> ApiResponse<T> success(String message, T data, Object metadata) {
