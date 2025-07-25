@@ -1,16 +1,16 @@
 services:
   # PostgreSQL Database for User Service
-  user-db:
-    container_name: user-db-pgsql
+  siska-user-db:
+    container_name: siska-user-db-pgsql
     image: postgres
     environment:
-      POSTGRES_DB: userdb
+      POSTGRES_DB: siska_user
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
-      - userdb-data:/var/lib/postgresql/data\
+      - siskauserdb-data:/var/lib/postgresql/data\
 
   # User Service
   user-service:
@@ -20,12 +20,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/userdb
+      SPRING_DATASOURCE_URL: jdbc:postgresql://siska-user-db:5432/siska_user
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: password
-      SPRING_REDIS_HOST: redis
     depends_on:
-      - user-db
+      - siska-user-db
 
 volumes:
-  userdb-data:
+  siskauserdb-data:
