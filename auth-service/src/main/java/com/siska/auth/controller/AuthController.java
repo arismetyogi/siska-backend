@@ -33,4 +33,11 @@ public class AuthController {
         ProfileResponse user = authService.validateToken(jwtToken);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<ProfileResponse> getCurrentUser(@RequestHeader("Authorization") String token) {
+        String jwtToken = token.substring(7);
+        ProfileResponse user = authService.validateToken(jwtToken);
+        return ResponseEntity.ok(user);
+    }
 }
