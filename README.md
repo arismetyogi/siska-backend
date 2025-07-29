@@ -6,7 +6,7 @@ This project is a backend RESTful API built with **Spring Boot** for managing us
 
 ## 🚀 Project Requirements
 
-- **Java 17+**
+- **Java 24+**
 - **Maven 3.8+**
 - **Spring Boot 3.5+**
 - **PostgreSQL** or compatible RDBMS -> update on application.properties
@@ -16,6 +16,7 @@ This project is a backend RESTful API built with **Spring Boot** for managing us
 - **Open API WebMVC** with swagger-ui
 
 ---
+
 ## 🧰 Stack Used
 
 | Layer             | Technology                         |
@@ -29,35 +30,43 @@ This project is a backend RESTful API built with **Spring Boot** for managing us
 | Validation        | Jakarta Bean Validation            |
 | Uploads           | Multipart/Form-Data (image upload) |
 | Testing           | JUnit 5, Mockito                   |
-| API Documentation | Swagger-UI                         |
+| API Documentation | OpenAPI/Swagger-UI                 |
 
 ---
+
 # 🔗 Entity Relationships
 
 ### 1. **User**
+
 - `id`, `name`, `email`, `password`, `role`.
 - Implements `UserDetails` for Spring Security
+
 ---
 
 # API Documentation
+
 Swagger UI can be accessed on <br>
 `{{base_uri}}/swagger-ui/index.html`
 
-# Commands
+# Commands (optional)
 
 - `mvn -B clean package` : for building the app and test, or add `-D skiptest` to skip tests when building the app
 - `mvn test` : to run all testings
 
 # Dockerized App
+
 You can run this app on your docker desktop by running this command from the app's root directory:
+
 - `docker-ps` : check the running images
 - `docker compose up -d` : run in detached mode on docker
 - `docker compose down` : stop the running container
-- `docker logs springstore-cont` : view logs of the dockerized app
+- `docker logs 'container-name'` : view logs of the dockerized app
 
 # 🛠️ API Endpoints
+
 ### 🧑‍💼 Auth
 
-| Method | Endpoint             | Description        |
-|--------|----------------------|--------------------|
-| POST   | `/api/auth/login`    | Login, returns JWT |
+| Method | Endpoint      | Description                     |
+|--------|---------------|---------------------------------|
+| POST   | `/auth/login` | Login, returns JWT              |
+| GET    | `/validate`   | Validate token, returns UserDto |
