@@ -1,14 +1,12 @@
 package com.siska.auth.service.impl;
 
-import com.siska.auth.exception.ResourceAlreadyExistedException;
 import com.siska.auth.model.dto.request.LoginRequest;
 import com.siska.auth.model.dto.response.AuthResponse;
 import com.siska.auth.model.dto.response.ProfileResponse;
 import com.siska.auth.model.entity.UserEntity;
-import com.siska.auth.model.enums.RoleEnum;
 import com.siska.auth.repository.UserRepository;
 import com.siska.auth.service.AuthService;
-import com.siska.auth.util.JwtUtil;
+import com.siska.auth.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,14 +18,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -43,13 +40,13 @@ public class AuthServiceImpl implements AuthService {
         UserEntity userEntity = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        String token = jwtUtil.generateToken(userEntity);
+        String token = jwtUtils.generateTokenFromUsername(userEntity);
         return new AuthResponse(token, userEntity.getUsername(), userEntity.getRole().name());
     }
 
     @Override
     public ProfileResponse validateToken(String token) {
-        String username = jwtUtil.extractUsername(token);
+        String username = jwtUtils.getUsernameFromToken(token);
         Optional<UserEntity> user = userRepository.findByUsername(username);
         if (user.isPresent()) {
             return ProfileResponse.builder()
